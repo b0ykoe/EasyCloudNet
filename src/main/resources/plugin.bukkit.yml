@@ -1,0 +1,10 @@
+name: EasyCloudNet
+version: ${project.version}
+main: pw.rapture.easycloudnet.bukkit.EasyCloudNet
+api-version: 1.13
+authors: [b0ykoe]
+website: rapture.pw
+depend:
+  - CloudNet-Bridge
+  - CloudNet-CloudPerms
+  - ProtocolLib
