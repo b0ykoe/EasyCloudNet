@@ -49,6 +49,5 @@ manifest.mf
 .DS_Store
 
 #Testing in the IDEA
-*.json
 *.properties
 *config.json
