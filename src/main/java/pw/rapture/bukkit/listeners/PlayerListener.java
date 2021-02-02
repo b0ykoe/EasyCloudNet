@@ -26,8 +26,11 @@ public class PlayerListener implements Listener {
   
   @EventHandler(priority = EventPriority.LOWEST)
   public void onPlayerJoin(PlayerJoinEvent event) {
-    pw.rapture.bukkit.objects.EasyPlayer easyPlayer = this.easyCloudNet.addEasyPlayer(event.getPlayer());
-    easyPlayer.getEasyNameTag().updateNameTags();
+    this.easyCloudNet.addEasyPlayer(event.getPlayer());
+
+    Bukkit.getOnlinePlayers().forEach(k -> {
+      this.easyCloudNet.getEasyPlayer(k).getEasyNameTag().updateNameTags();
+    });
   }
 
   @EventHandler(priority = EventPriority.HIGHEST)

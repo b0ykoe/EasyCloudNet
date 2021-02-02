@@ -1,0 +1,9 @@
+{
+  "group": "pw.rapture.modules",
+  "name": "EasyCloudNet",
+  "version": "1.0",
+  "author": "b0ykoe",
+  "main": "pw.rapture.module.Module",
+  "description": "",
+  "website": "https://rapture.pw"
+}
