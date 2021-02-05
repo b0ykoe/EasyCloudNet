@@ -315,6 +315,7 @@ public class EasyNameTag {
    */
   public void updateNameTags() {
     Player currentPlayer = this.easyPlayer.getPlayer();
+
     // If player was not found return
     if (currentPlayer == null) {
       return;

@@ -12,6 +12,9 @@ EasyCloudNet ist ein Plugin welches die Entwicklung und Umgang mit CloudNet-Plug
 EasyCloudNet kann unter umständen auch mit Java 8 und Spigot / Paperspigot 1.8 laufen. Jedoch
  sind die trims darauf ausgelegt mit der 1.13.2+ zu funktionieren. EasyCloudNet wird mit Java 11
   compiled, auch das kann sehr einfach geändert werden.
+  
+ Latest Successfully - main: https://ci.rapture.pw/browse/ECN-ECN/latestSuccessful
+ Latest Successfully - devel: https://ci.rapture.pw/browse/ECN-ECN0/latestSuccessful 
 
 ## Installation
 
