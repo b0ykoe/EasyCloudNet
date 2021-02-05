@@ -124,10 +124,23 @@ public class EasyScoreboard {
   }
 
   private void setTeamText(Team team, String text) {
+    if(team == null) {
+      return;
+    }
+
+    team.setPrefix("");
+    team.setSuffix("");
+
     // sanity check if it got removed somehow
     // if the text is not long enough set it and return since anything beyond here is for longer text
-    if (text.length() <= 64 && team != null) {
+    if(text.length() <= 12) {
       team.setPrefix(text);
+      return;
+    }
+
+    if (text.length() <= 64) {
+      team.setPrefix(text.substring(0, (text.length()/2)));
+      team.setSuffix(ChatColor.getLastColors(text.substring(0, (text.length()/2))) + text.substring((text.length()/2)));
       return;
     }
 
