@@ -1,5 +1,6 @@
 package pw.rapture.module.listener;
 
+import de.dytanic.cloudnet.common.io.FileUtils;
 import de.dytanic.cloudnet.driver.CloudNetDriver;
 import de.dytanic.cloudnet.driver.event.EventListener;
 import de.dytanic.cloudnet.driver.util.DefaultModuleHelper;
@@ -16,7 +17,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import pw.rapture.module.Module;
 
-// Original: https://github.com/CloudNetService/CloudNet-v3/blob/329c21f03a9e668e1ffc2eb5b575c007c533ba44/cloudnet-modules/cloudnet-npcs/src/main/java/eu/cloudnetservice/cloudnet/ext/npcs/node/listener/IncludePluginListener.java
+// Updated Original: https://github.com/CloudNetService/CloudNet-v3/blob/f380465b3811210a323b0398dab6a4b897122c4e/cloudnet-modules/cloudnet-npcs/src/main/java/eu/cloudnetservice/cloudnet/ext/npcs/node/listener/IncludePluginListener.java
 public class IncludePluginListener {
 
   private static final String PROTOCOLLIB_DOWNLOAD_URL =
@@ -69,30 +70,33 @@ public class IncludePluginListener {
             .contains(blacklistEntry));
 
     // creates the "plugins" dir if there is none
-    File pluginsFolder = new File(event.getCloudService().getDirectory(), "plugins");
-    pluginsFolder.mkdirs();
+    Path pluginsFolder = event.getCloudService().getDirectoryPath().resolve("plugins");
+    FileUtils.createDirectoryReported(pluginsFolder);
 
     // removes the EasyCloudNet.jar from the plugins folder if there is one
-    File file = new File(pluginsFolder, "EasyCloudNet.jar");
-    file.delete();
+    Path targetFile = pluginsFolder.resolve("EasyCloudNet.jar");
+    FileUtils.deleteFileReported(targetFile);
 
     if (installPlugin) {
       // installs ProtocolLib
-      try {
-        Files.copy(PROTOCOLLIB_CACHE_PATH, pluginsFolder.toPath().resolve("ProtocolLib.jar"),
-            StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException exception) {
-        CloudNetDriver.getInstance().getLogger().error("Unable to copy ProtocolLib!", exception);
-        return;
+      Path protocolLibTargetPath = pluginsFolder.resolve("ProtocolLib.jar");
+      if (Files.notExists(protocolLibTargetPath) && Files.exists(PROTOCOLLIB_CACHE_PATH)) {
+        try {
+          Files.copy(PROTOCOLLIB_CACHE_PATH, protocolLibTargetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException exception) {
+          CloudNetDriver.getInstance().getLogger().error("Unable to copy ProtocolLib!", exception);
+          return;
+        }
       }
+
 
       // copies the current jar
       if (DefaultModuleHelper
-          .copyCurrentModuleInstanceFromClass(IncludePluginListener.class, file)) {
+          .copyCurrentModuleInstanceFromClass(IncludePluginListener.class, targetFile)) {
         DefaultModuleHelper.copyPluginConfigurationFileForEnvironment(
             IncludePluginListener.class,
             event.getCloudService().getServiceConfiguration().getProcessConfig().getEnvironment(),
-            file
+            targetFile
         );
       }
     }
